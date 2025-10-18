@@ -1,0 +1,48 @@
+.filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.filters-header h2 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.filters-close {
+    border: none;
+    background: none;
+    font-size: 18px;
+    color: #666;
+    cursor: pointer;
+}
+
+.filters-block {
+    margin-bottom: 24px;
+}
+
+.filters-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.filters-select {
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    background: transparent;
+}
+
+.filters-genres label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}

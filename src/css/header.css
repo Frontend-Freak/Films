@@ -1,0 +1,17 @@
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: solid 1px black;
+	padding: 24px;
+}
+
+.app-name {
+	font-size: 16px;
+	font-weight: normal;
+}
+
+.signin-btn {
+	border: solid 1px black;
+	padding: 5px;
+}
