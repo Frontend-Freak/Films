@@ -1,35 +1,33 @@
-import "../css/filters.css";
+import "../../css/filters.css";
 import { useEffect } from "react";
 import { useState } from "react";
+import type { SelectedGenres } from "./filters";
+import { useContext } from "react";
+import { AuthContext } from "../../context";
 
-export const API_KEY: string = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMDE4NzQwMTQyNWE3NzRlNzk3M2M2YTFlNjQ1NmQ0NSIsIm5iZiI6MTc1OTcwNzgxNS45MDYsInN1YiI6IjY4ZTMwMmE3NzYwNDAwNTJhOWMyMjc2OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.8h-qKQP6Qdh4s8jo8-Wa9f9_Ahk5DmUsfl6EKAI0fwU";
 
-interface Genres {
+export interface Genres {
 	id: number;
 	name: string;
 }
 
-interface SelectedGenres{
-    id: number
+export interface SelectedGenresProps{
+	selectedGenres: SelectedGenres[]
+	onChange: (newSelected: SelectedGenres[]) => void
 }
 
-export default function FilteringByGenre() {
+export default function FilteringByGenre({selectedGenres, onChange} : SelectedGenresProps) {
 	const [genres, setGenres] = useState<Genres[]>([]);
-    console.log('все жанры', genres)
-    const [selectedGenres, setSelectedGenres] = useState<SelectedGenres[]>([])
-    console.log('выбранные жанры', selectedGenres)
-
-	function handleResetFiltersClick() {
-		setSelectedGenres([])
-	}
 
 	function handleCheckedChange(id: number) {
-		if(selectedGenres.map(item => item.id).includes(id)){
-            setSelectedGenres(selectedGenres.filter(item => item.id !== id))
-        }else {
-            setSelectedGenres([...selectedGenres, {id}])
-        }
+		if (selectedGenres.map((item) => item.id).includes(id)) {
+			onChange(selectedGenres.filter((item) => item.id !== id));
+		} else {
+			onChange([...selectedGenres, { id }]);
+		}
 	}
+
+	const token = useContext(AuthContext)
 
 	useEffect(() => {
 		async function fetchingGenres() {
@@ -38,7 +36,7 @@ export default function FilteringByGenre() {
 				method: "GET",
 				headers: {
 					accept: "application/json",
-					Authorization: `Bearer ${API_KEY}`,
+					Authorization: `Bearer ${token}`,
 				},
 			};
 			try {
@@ -51,7 +49,7 @@ export default function FilteringByGenre() {
 			}
 		}
 		fetchingGenres();
-	}, []);
+	}, [token]);
 
 	return (
 		<>
@@ -66,14 +64,13 @@ export default function FilteringByGenre() {
 							<input
 								type="checkbox"
 								value={genres.name}
-								checked={selectedGenres.map(item => item.id).includes(genres.id)}
+								checked={selectedGenres.map((item) => item.id).includes(genres.id)}
 								onChange={() => handleCheckedChange(genres.id)}
 							/>
 							{genres.name}
 						</label>
 					</div>
 				))}
-				<button onClick={handleResetFiltersClick}>Сброс фильтров</button>
 			</div>
 		</>
 	);
